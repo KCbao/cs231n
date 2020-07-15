@@ -53,8 +53,20 @@ def svm_loss_naive(W, X, y, reg):
     # code above to compute the gradient.                                       #
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
+    for i in range(num_train):
+        f=0
+        pred_scores = X[i].dot(W)
+        correct_class_score = pred_scores[y[i]]
+        for j in range(num_classes):
+            if j == y[i]:
+                continue
+            margin = pred_scores[j] - correct_class_score + 1 # note delta = 1
+            if margin > 0:
+                dW[:,j]+=X[i]
+                f+=1
+        dW[:,y[i]] += -f*X[i]
+    dW /= num_train
+    dW += 2*reg*W
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     
@@ -78,7 +90,13 @@ def svm_loss_vectorized(W, X, y, reg):
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    n=len(X)
+    scores=X.dot(W)
+    correct_class_scores=scores[np.arange(n),y]
+    margin=np.clip(scores-correct_class_scores.reshape([-1,1])+1,0,None)
+    margin[np.arange(n),y]=0
+    loss=np.sum(margin)/n + reg * np.sum(np.square(W))
+
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
@@ -93,7 +111,10 @@ def svm_loss_vectorized(W, X, y, reg):
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    m = (margin>0).astype(int)
+    f = np.sum(m,axis=1)
+    m[np.arange(n),y] = -f
+    dW = X.T.dot(m)/n + 2*reg*W
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
