@@ -1,7 +1,7 @@
 # cs231n
 
 ## Assignment 1
-- [x]
+- [x] Q1-Q5
 
 ## Assignment 2
 - [x] Fully Connected Neural Network 
