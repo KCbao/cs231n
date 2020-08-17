@@ -149,6 +149,7 @@ class KNearestNeighbor(object):
         - y: A numpy array of shape (num_test,) containing predicted labels for the
           test data, where y[i] is the predicted label for the test point X[i].
         """
+        
         num_test = dists.shape[0]
         y_pred = np.zeros(num_test)
         for i in range(num_test):
@@ -164,8 +165,8 @@ class KNearestNeighbor(object):
             #########################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-            top_k_ind = np.argsort(dists[i])[:k]
-            closest_y = self.y_train[top_k_ind]
+    
+            closest_y = self.y_train[np.argsort(dists[i])[0:k]]
     
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
@@ -178,8 +179,8 @@ class KNearestNeighbor(object):
             #########################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-            pass
-
+            y_pred[i] = np.bincount(closest_y).argmax()
+          
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
+        
         return y_pred
