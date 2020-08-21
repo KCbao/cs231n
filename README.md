@@ -23,6 +23,8 @@
 
 2. Q2: batch norm not implemented correctly
 
+- Fix Batchnorm forward pass. 
+
 3. Q3: increase p when layers are smallers, 40\% of 2 neurons layer can result in both neurons dropped, Dropout does not reduce capacity of network, just slows down trainings. important to not dropout too many neurons. 
 
 - Solved. Re-do Inline Q3, and explain why adding dropout will slow down training. 

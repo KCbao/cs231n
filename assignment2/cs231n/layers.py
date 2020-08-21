@@ -200,9 +200,20 @@ def batchnorm_forward(x, gamma, beta, bn_param):
         #######################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         layernorm = bn_param.get('layernorm', 0)
-        mu = x.mean(axis=0)
-        var = x.var(axis=0) + eps
-        std = np.sqrt(var)
+
+        # mean = np.mean(x, axis=0)
+        # q = x - mean                         #1
+        # qsq = q*q                            #2
+        # var = np.sum(qsq, axis=0)/N
+        # vareps = var + eps                   #3
+        # den = np.sqrt(vareps)                #4
+        # invden = 1.0 / den                   #5
+        # x_norm = q * invden                  #6
+        # out = x_norm * gamma + beta          #7
+
+        mu = np.mean(x, axis=0)
+        var = np.sum((x-mu)*(x-mu), axis=0)/N
+        std = np.sqrt(var+eps)
         z = (x - mu)/std
         out = gamma * z + beta
         if layernorm == 0:
@@ -755,7 +766,7 @@ def spatial_batchnorm_forward(x, gamma, beta, bn_param):
     - cache: Values needed for the backward pass
     """
     out, cache = None, None
-
+    
     ###########################################################################
     # TODO: Implement the forward pass for spatial batch normalization.       #
     #                                                                         #
@@ -829,7 +840,7 @@ def spatial_batchnorm_backward(dout, cache):
     # Your implementation should be very short; ours is less than five lines. #
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
+    beta,gamma,norm,num,var,eps,sqrtvar = cache
     N,C,H,W = dout.shape
     dbeta = np.sum(dout,axis = (0,2,3))
     dgamma = np.sum(dout*norm,axis = (0,2,3))
