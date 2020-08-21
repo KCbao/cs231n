@@ -4,10 +4,7 @@
 - [x] Q1-Q5
 
 ### FeedBacks from A1
-1. Q1: predict_labels, pass does not predict so 11% accuracy not 27%
-
-- Incline question 2: Option 1,2,3 leave the performance unchanged while option 4 does, becuase per pixel division changes the L1 sum, 
-- Cross-validation fails because of problem in predict_labels
+1. Q1: predict_labels, pass does not predict so 11% accuracy not 27%. Incline question 2: Option 1,2,3 leave the performance unchanged while option 4 does, becuase per pixel division changes the L1 sum. Cross-validation fails because of problem in predict_labels.
 
 - fix predict_labels function, now cross-validation succeeds with test accuracy above 28\%.  update inline question 2 with more explanations. 
 
